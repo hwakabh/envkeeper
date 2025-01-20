@@ -1,0 +1,28 @@
+name: Triage PR
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  triage-pr:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Assign author to PR
+        if: github.event.action == 'opened'
+        uses: technote-space/assign-author@v1.6.2
+        # https://github.com/technote-space/assign-author
+
+      - name: Label to PR
+        uses: actions/labeler@v5
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          sync-labels: true
+          configuration-path: .github/config/pr-labels.yaml

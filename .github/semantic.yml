@@ -1,0 +1,17 @@
+enabled: true
+titleOnly: true
+commitsOnly: false
+titleAndCommits: false
+types:
+  - feat
+  - fix
+  - build
+  - chore
+  - ci
+  - docs
+  - style
+  - refactor
+  - perf
+  - test
+  - revert
+targetUrl: https://www.conventionalcommits.org/en/v1.0.0/

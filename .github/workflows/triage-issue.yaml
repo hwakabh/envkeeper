@@ -1,0 +1,37 @@
+name: Triage Issue
+
+on:
+  issues:
+    types:
+      - opened
+      - edited
+      - reopened
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  triage-issue:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Assign author to issue
+        if: github.event.action == 'opened'
+        uses: technote-space/assign-author@v1.6.2
+        # https://github.com/technote-space/assign-author
+
+      - name: Label Issue
+        uses: github/issue-labeler@v3.4
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          configuration-path: .github/config/issue-labels.yaml
+          # case if we have multiple configs
+          enable-versioned-regex: 0
+          # only checks issue titles
+          include-title: 1
+          include-body: 0
+        # https://github.com/github/issue-labeler

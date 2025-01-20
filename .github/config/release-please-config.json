@@ -1,0 +1,12 @@
+{
+  "packages": {
+    ".": {
+      "release-type": "python"
+    }
+  },
+  "pull-request-title-pattern": "chore${scope}: PR for release${component} ${version}",
+  "pull-request-header": ":robot: Release PR",
+  "pull-request-footer": "This PR was generated with [Release Please](https://github.com/googleapis/release-please) with customized. See [schemas](https://github.com/googleapis/release-please/blob/main/schemas/config.json) for more information",
+  "draft-pull-request": true,
+  "extra-label": "releases,docs"
+}

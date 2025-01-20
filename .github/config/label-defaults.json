@@ -1,0 +1,82 @@
+[
+  {
+    "name": "brekaing",
+    "color": "410715",
+    "description": "Breaking Changes"
+  },
+  {
+    "name": "bugs",
+    "color": "d73a4a",
+    "description": "Something isn't working"
+  },
+  {
+    "name": "builds",
+    "color": "e8b170",
+    "description": "Issue or features related to application builds"
+  },
+  {
+    "name": "chore",
+    "color": "d1a995",
+    "description": "Minor activities not related to core logics"
+  },
+  {
+    "name": "ci",
+    "color": "e9faaf",
+    "description": "Topics on workflows or automations"
+  },
+  {
+    "name": "deploy",
+    "color": "7057ff",
+    "description": "Features depending on application runtimes"
+  },
+  {
+    "name": "deps",
+    "color": "0052cc",
+    "description": "Changes on app dependencies"
+  },
+  {
+    "name": "docs",
+    "color": "0075ca",
+    "description": "Improvements or additions to documentation"
+  },
+  {
+    "name": "features",
+    "color": "a2eeef",
+    "description": "New feature or request"
+  },
+  {
+    "name": "releases",
+    "color": "49fe47",
+    "description": "Label for release PR"
+  },
+  {
+    "name": "renovate",
+    "color": "ededed",
+    "description": "PRs from Mend Renovate"
+  },
+  {
+    "name": "secutiry",
+    "color": "e4e669",
+    "description": "Changes with security perspectives"
+  },
+  {
+    "name": "tests",
+    "color": "d93f0b",
+    "description": "Changes on test codes"
+  },
+  {
+    "name": "validating",
+    "color": "ffffff",
+    "description": "Awaiting e2e validatings"
+  },
+  {
+    "name": "staled",
+    "color": "ffffff",
+    "description": "Issue not actively updated"
+  },
+  {
+    "name": "wontfix",
+    "color": "ffffff",
+    "description": "This will not be worked on"
+  }
+]
