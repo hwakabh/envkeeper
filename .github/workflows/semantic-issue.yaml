@@ -22,6 +22,6 @@ jobs:
       - name: Check Issue Title
         uses: hwakabh/semantic-issue-action@v0.3.0
         with:
-          repo: 'GH_USERNAME/GH_REPONAME'
+          repo: 'hwakabh/runtimop-action'
           token: ${{ secrets.GITHUB_TOKEN }}
         # https://github.com/hwakabh/semantic-issue-action
