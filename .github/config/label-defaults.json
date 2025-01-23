@@ -50,6 +50,26 @@
     "description": "Label for release PR"
   },
   {
+    "name": "autorelease: pending",
+    "color": "ffffff",
+    "description": ""
+  },
+  {
+    "name": "autorelease: tagged",
+    "color": "ffffff",
+    "description": ""
+  },
+  {
+    "name": "autorelease: snapshot",
+    "color": "ffffff",
+    "description": ""
+  },
+  {
+    "name": "autorelease: published",
+    "color": "ffffff",
+    "description": ""
+  },
+  {
     "name": "renovate",
     "color": "ededed",
     "description": "PRs from Mend Renovate"
