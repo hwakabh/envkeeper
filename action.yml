@@ -1,9 +1,9 @@
 # Ref for actions.yml
 # https://docs.github.com/en/actions/sharing-automations/creating-actions/metadata-syntax-for-github-actions
 
-name: 'envkeeper'
+name: 'Envkeeper Actions'
 description: 'Check and purge inactive Environments'
-author: hwakabh
+author: 'hwakabh'
 
 inputs:
   repo:
