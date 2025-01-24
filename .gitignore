@@ -4,3 +4,31 @@
 .idea
 .vscode
 *.code-workspace
+
+# Python byte-compiled, optmized, DLLs
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Testings
+.pytest_cache/
+.coverage
+.coverage.*
+
+# Environments
+.env
+.venv
+env/
+venv/
+
+# packaging
+build/
+dist/
+eggs/
+.eggs/
+parts/
+sdist/
+wheels/
+*.egg-info/
+*.egg
+MANIFEST
