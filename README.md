@@ -1,30 +1,10 @@
-# runtimop-action
-Custom Composit GitHub Actions to run `Runtimop` (`rtmcli`) for housekeeping GitHub environment/deployment.
+# envkeeper-action
+Custom Composit GitHub Actions to run `Envkeeper` (`envkp`) for housekeeping GitHub Environment.
 
-## What is Runtimop?
-Coming from Runtime Mopping
+## What is Envkeeper?
+Coming from Environment Housekeeper
 
-
-
-## rtmcli
-
-### CLI Install
-`runtimop` can be installed from PyPI with `pip`, `poetry`, `uv`, ...etc
-
-or, Directly from Git with `pip`
-
-### Local Setup
-- Using setuptools
-Instead of using package manager, you can download the sourcse and setup locally using `setuptools` (setup.py)
-Environmental variables, Makefile, docker-compose, ...etc
-
-- Using .whl files
-Download from releases and install via pip
-
-
-### Environmental Variables
-
-
+***
 
 ## as a GitHub Actions
 
@@ -39,6 +19,45 @@ Download from releases and install via pip
 
 ### Outputs
 
+***
+
+## envkp
+
+### CLI Install
+`runtimop` can be installed from PyPI with `pip`, `poetry`, `uv`, ...etc
+
+or, Directly from Git with `pip`
+
+### Local Setup
+- Using setuptools
+Instead of using package manager, you can download the sourcse and setup locally using `setuptools` (setup.py)
+Environmental variables, Makefile, docker-compose, ...etc
+
+- Using .whl files
+Download from releases and install via pip
+
+### Usage
+
+```shell
+
+```
+
+### Environmental Variables
+
+***
+
+## envkp-dump
+
+### Usage
+
+```shell
+
+```
+
+### Environmental Variables
+
+
+***
 
 
 ## Good to know / Caveats

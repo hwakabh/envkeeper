@@ -1,0 +1,33 @@
+name: 'envkeeper-action'
+description: 'Example composite GitHub action'
+author: hwakabh
+branding:
+  icon: 'file'
+  color: 'white'
+
+inputs:
+  param1:
+    required: true
+    description: "Input parameter placeholder"
+    default: "true"
+
+outputs:
+  result1:
+    description: "Output result placeholder"
+    value: "${{ steps.context.outputs.action-result }}"
+
+runs:
+  using: "composite"
+  steps:
+    - uses: checkout?
+      if: steps.action_black.outputs.is_formatted == 'true'
+      with:
+        tool_name: blackfmt
+        fail_on_error: true
+
+    - uses: setup-python?
+
+    - id: context
+      shell: bash
+      run: |
+          echo "action-result=${{ inputs.param1 }}" >> $GITHUB_OUTPUT
