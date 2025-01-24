@@ -1,0 +1,11 @@
+# Ref:
+# - <https://setuptools.pypa.io/en/latest/userguide/quickstart.html>
+
+# [project]
+# name = "envkeeper"
+# version = "0.0.0"
+# dependencies = []
+
+# [build-system]
+# requires = ["setuptools"]
+# build-backend = "setuptools.build_meta"

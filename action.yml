@@ -1,18 +1,22 @@
+# Ref for actions.yml
+# https://docs.github.com/en/actions/sharing-automations/creating-actions/metadata-syntax-for-github-actions
+
 name: 'envkeeper'
-description: 'Example composite GitHub action'
+description: 'Check and purge inactive Environments'
 author: hwakabh
-branding:
-  icon: 'file'
-  color: 'white'
 
 inputs:
-  param1:
+  repo:
+    description: "Repository to operate"
     required: true
-    description: "Input parameter placeholder"
-    default: "true"
+    default: ${{ github.repository }}
+  token:
+    description: "GitHub Personal Access Token for the actions"
+    required: true
+    default: ${{ github.token }}
 
 outputs:
-  result1:
+  results:
     description: "Output result placeholder"
     value: "${{ steps.context.outputs.action-result }}"
 
@@ -31,3 +35,7 @@ runs:
       shell: bash
       run: |
           echo "action-result=${{ inputs.param1 }}" >> $GITHUB_OUTPUT
+
+branding:
+  icon: 'file'
+  color: 'white'
