@@ -20,8 +20,8 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Check Issue Title
-        uses: hwakabh/semantic-issue-action@v0.3.0
+        uses: hwakabh/semantic-issue-action@v0.4.1
         with:
-          repo: 'hwakabh/runtimop-action'
+          repo: ${{ github.repository }}
           token: ${{ secrets.GITHUB_TOKEN }}
         # https://github.com/hwakabh/semantic-issue-action
