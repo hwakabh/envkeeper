@@ -1,4 +1,4 @@
-name: 'envkeeper-action'
+name: 'envkeeper'
 description: 'Example composite GitHub action'
 author: hwakabh
 branding:
