@@ -7,7 +7,7 @@ Coming from Environment Housekeeper
 ***
 
 ## as a GitHub Actions
-Custom Composit GitHub Actions to run `Envkeeper` (`envkp`) for housekeeping GitHub Environment.
+Custom Composit GitHub Actions to run `Envkeeper` (`envkp` and `envkp-dump`) for housekeeping GitHub Environment.
 
 ### Usage
 
