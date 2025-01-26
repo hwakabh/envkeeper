@@ -9,9 +9,9 @@ setup(
     install_requires=['setuptools'],    # httpx, requests, ...etc
     entry_points={
         "console_scripts": [
-            # we can use as CLI with the name `envkp` & `envkp-dump`
             "envkp = envkp.core:cli",
-            "envkp-dump = envkp.core:dump",
+            # with adding, we can use multiple entries as CLI such as `envkp` & `envkp-dump`
+            # "envkp-dump = envkp.core:dump",
         ]
     }
 )
