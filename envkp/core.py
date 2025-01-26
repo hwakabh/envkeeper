@@ -1,3 +1,4 @@
+import argparse
 import json
 import os
 import sys
@@ -15,24 +16,22 @@ HEADER = {
 }
 
 
-def help():
-    command = sys.argv[0].split('/')[-1]
-    if command == 'envkp':
-        print('envkp controls GitHub staled environments')
-        print('Usage:')
-        print('     envkp seek --repo=GITHUB_REPONAME [ --verbose ]')
-        print('     envkp clean --repo=GITHUB_REPONAME [ --force ]')
-        print()
-
-    if command == 'envkp-dump':
-        print('envkp-dump fetch configurations of current environments')
-        print('Usage:')
-        print('     envkp-dump --repo=GITHUB_REPONAME [ --verbose ]')
-        print()
-
-
-
 def cli():
+    parser = argparse.ArgumentParser(description='envkp controls GitHub staled environments')
+    parser.add_argument('-r', '--repo', required=True, help='target repsitory with \'owner/reponame\' format')
+    parser.add_argument('--token', help='provide GitHub Personal access token')
+
+    subparsers = parser.add_subparsers()
+
+    parser1 = subparsers.add_parser("clean", help='Purge environments/deployments in repo')
+    parser1.add_argument('-f', '--force', action='store_true', help='force delete all environment including active ones')
+
+    parser2 = subparsers.add_parser("seek", help='Fetch list of environments/deployments in repo')
+    parser2.add_argument('-v', '--verbose', action='store_true', help='get more details')
+
+    args = parser.parse_args()
+
+
     if not cli_precheck(repo=GH_REPONAME, token=GH_TOKEN):
         sys.exit(1)
 
@@ -92,12 +91,6 @@ def cli():
                 print('This is active deployment, nothing to do ...')
 
         print()
-
-
-def dump():
-    if not cli_precheck(repo=GH_REPONAME, token=GH_TOKEN):
-        sys.exit(1)
-
 
 
 def cli_precheck(repo, token):
