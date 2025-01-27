@@ -10,7 +10,7 @@ setup(
     entry_points={
         "console_scripts": [
             "envkp = envkp.core:cli",
-            # with adding, we can use multiple entries as CLI such as `envkp` & `envkp-dump`
+            # for further developments
             # "envkp-dump = envkp.core:dump",
         ]
     }

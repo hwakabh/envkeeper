@@ -7,37 +7,46 @@ from urllib.request import urlopen
 from urllib.request import Request
 
 
-GH_REPONAME = os.environ.get('GH_REPONAME', None)
 GH_TOKEN = os.environ.get('GH_TOKEN', None)
-
 HEADER = {
     'authorization': 'token ' + GH_TOKEN,
     'accept': 'application/vnd.github.ant-man-preview+json'
 }
 
 
+def get_version():
+    return '0.1.0'
+
+
 def cli():
-    parser = argparse.ArgumentParser(description='envkp controls GitHub staled environments')
-    parser.add_argument('-r', '--repo', required=True, help='target repsitory with \'owner/reponame\' format')
-    parser.add_argument('--token', help='provide GitHub Personal access token')
+    p, args = fetch_cli_args()
 
-    subparsers = parser.add_subparsers()
-
-    parser1 = subparsers.add_parser("clean", help='Purge environments/deployments in repo')
-    parser1.add_argument('-f', '--force', action='store_true', help='force delete all environment including active ones')
-
-    parser2 = subparsers.add_parser("seek", help='Fetch list of environments/deployments in repo')
-    parser2.add_argument('-v', '--verbose', action='store_true', help='get more details')
-
-    args = parser.parse_args()
-
-
-    if not cli_precheck(repo=GH_REPONAME, token=GH_TOKEN):
+    # validate subcommand is either: `seek` or `clean`
+    # in case we will not use `dest` in subparser, argparse.namespace object is not iterable, need to cast as dict
+    if args.subcommand is None:
+        print('Missing subcommand arguments\n')
+        p.print_help()
         sys.exit(1)
 
+    if args.subcommand == 'help':
+        p.print_help()
+        sys.exit(1)
+
+    if args.subcommand == 'version':
+        print(f'{get_version()}')
+        sys.exit(1)
+
+
+    # validate format of --repo value and GH_TOKEN
+    if not cli_precheck(repo=args.repo, token=GH_TOKEN):
+        sys.exit(1)
+
+
+    GH_REPONAME = args.repo
+
     # Fetch mappings between environment & deployment
-    print('Get mappings between environments and deployments ...')
-    pairs = fetch_pairs()
+    print(f'Get mappings between environments and deployments from repo: {GH_REPONAME}')
+    pairs = fetch_pairs(repo=GH_REPONAME)
     print(f'Got {len(pairs)}')
     for p in pairs:
         print(p)
@@ -51,7 +60,7 @@ def cli():
 
     # Get list of environment
     print('Get list of environments ...')
-    environments = fetch_environments()
+    environments = fetch_environments(repo=GH_REPONAME)
     for e in environments:
         print(e['name'])
 
@@ -89,16 +98,38 @@ def cli():
 
             else:
                 print('This is active deployment, nothing to do ...')
-
         print()
+
+    sys.exit(0)
+
+
+def fetch_cli_args():
+    parser = argparse.ArgumentParser(
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        description='envkp controls GitHub staled environments',
+        epilog='notes: --token option is not recommended for the security perspectives, please use GH_TOKEN variables instead.'
+    )
+    # TODO: --repo can be overriden by GH_REPONAME, so not required=True
+    parser.add_argument('-r', '--repo', required=True, help='target repsitory with \'owner/reponame\' format')
+    parser.add_argument('-V', '--version', action='version', version=get_version())
+    parser.add_argument('--token', help='provide GitHub Personal access token')
+
+    subparsers = parser.add_subparsers(dest='subcommand')
+
+    parser1 = subparsers.add_parser("clean", help='Purge environments/deployments in repo')
+    parser1.add_argument('-f', '--force', action='store_true', help='force delete all environment including active ones')
+
+    parser2 = subparsers.add_parser("seek", help='Fetch list of environments/deployments in repo')
+    parser2.add_argument('-v', '--verbose', action='store_true', help='get more details')
+
+    parser3 = subparsers.add_parser("help", help='Print help')
+    parser4 = subparsers.add_parser("version", help='Print version')
+
+    return parser, parser.parse_args()
 
 
 def cli_precheck(repo, token):
     print('Fetching GitHub username & repository name from shell')
-
-    if (repo is None):
-        print('  GH_REPONAME not provides, please set environmental variable with your shell.\n')
-        return False
 
     if (len(repo.split('/')) != 2):
         print('  GH_REPONAME format invalid, please set the value with `repo_owner/repo_name` format.\n')
@@ -113,7 +144,7 @@ def cli_precheck(repo, token):
 
 
 
-def fetch_pairs():
+def fetch_pairs(repo):
     # returns the list such as:
     # {'url': 'https://api.github.com/repos/hwakabh/bennu-official.page/deployments/2116891061/statuses', 'env': 'production'}
     # {'url': 'https://api.github.com/repos/hwakabh/bennu-official.page/deployments/2116882302/statuses', 'env': 'production'}
@@ -121,8 +152,7 @@ def fetch_pairs():
     # ...
     # this is the core mappings between env name & deployment
 
-    url = f'https://api.github.com/repos/{GH_REPONAME}/deployments?per_page=100'
-    header = {'authorization': 'token ' + GH_TOKEN}
+    url = f'https://api.github.com/repos/{repo}/deployments?per_page=100'
 
     with urlopen(Request(method='GET', url=url, headers=HEADER)) as r:
         res = r.read().decode('utf-8')
@@ -141,9 +171,8 @@ def fetch_pairs():
     return [{'url': r.get('statuses_url'), 'env': r.get('environment')} for r in resjson]
 
 
-def fetch_environments():
-    url = f'https://api.github.com/repos/{GH_REPONAME}/environments'
-    header = {'authorization': 'token ' + GH_TOKEN}
+def fetch_environments(repo):
+    url = f'https://api.github.com/repos/{repo}/environments'
 
     with urlopen(Request(method='GET', url=url, headers=HEADER)) as r:
         res = r.read().decode('utf-8')
