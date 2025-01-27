@@ -42,7 +42,7 @@ def cli():
         sys.exit(1)
 
     # validate format of --repo value and GH_TOKEN
-    if not cli_precheck(repo=args.repo, token=GH_TOKEN):
+    if not cli_precheck(repo=GH_REPONAME, token=GH_TOKEN):
         sys.exit(1)
 
 
