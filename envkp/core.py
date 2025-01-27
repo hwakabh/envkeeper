@@ -7,13 +7,6 @@ from urllib.request import urlopen
 from urllib.request import Request
 
 
-GH_TOKEN = os.environ.get('GH_TOKEN', None)
-HEADER = {
-    'authorization': 'token ' + GH_TOKEN,
-    'accept': 'application/vnd.github.ant-man-preview+json'
-}
-
-
 def get_version():
     from . import __version__
     return __version__
@@ -41,15 +34,22 @@ def cli():
         p.print_help()
         sys.exit(1)
 
+    GH_TOKEN = os.environ.get('GH_TOKEN', None)
+
     # validate format of --repo value and GH_TOKEN
     if not cli_precheck(repo=GH_REPONAME, token=GH_TOKEN):
         sys.exit(1)
+
+    HEADER = {
+        'authorization': 'token ' + GH_TOKEN,
+        'accept': 'application/vnd.github.ant-man-preview+json'
+    }
 
 
     print('>>> Starting operations')
     # Fetch mappings between environment & deployment
     print(f'Get mappings between environments and deployments from repo: {GH_REPONAME}')
-    pairs = fetch_pairs(repo=GH_REPONAME)
+    pairs = fetch_pairs(repo=GH_REPONAME, reqheader=HEADER)
     print(f'Got {len(pairs)}')
     for p in pairs:
         print(p)
@@ -63,7 +63,7 @@ def cli():
 
     # Get list of environment
     print('Get list of environments ...')
-    environments = fetch_environments(repo=GH_REPONAME)
+    environments = fetch_environments(repo=GH_REPONAME, reqheader=HEADER)
     for e in environments:
         print(e['name'])
 
@@ -80,7 +80,7 @@ def cli():
         # Get the statues linked to each deployment
         for deploy_url in deploy_urls:
             deployment_id = deploy_url.split('/')[-2]
-            states = get_deployment_statuses(status_url=deploy_url)
+            states = get_deployment_statuses(status_url=deploy_url, reqheader=HEADER)
             print(f'\tFound {len(states)} statues in deployment_id [ {deployment_id} ]')
             # for s in states:
             #     print(f'\t\tID: {s[0]}, Status: {s[1]}')
@@ -135,19 +135,19 @@ def cli_precheck(repo, token):
     print('Fetching GitHub username & repository name from shell')
 
     if (len(repo.split('/')) != 2):
-        print('  GH_REPONAME format invalid, please set the value with `repo_owner/repo_name` format.\n')
+        print('>>> GH_REPONAME format invalid, please set the value with `repo_owner/repo_name` format.\n')
         return False
 
     print('Fetching GitHub PAT from shell')
     if token is None:
-        print('  GH_TOKEN not provides, please set environmental variable with your shell.\n')
+        print('>>> GH_TOKEN not provides, please set environmental variable with your shell.\n')
         return False
 
     return True
 
 
 
-def fetch_pairs(repo):
+def fetch_pairs(repo, reqheader):
     # returns the list such as:
     # {'url': 'https://api.github.com/repos/hwakabh/bennu-official.page/deployments/2116891061/statuses', 'env': 'production'}
     # {'url': 'https://api.github.com/repos/hwakabh/bennu-official.page/deployments/2116882302/statuses', 'env': 'production'}
@@ -157,7 +157,7 @@ def fetch_pairs(repo):
 
     url = f'https://api.github.com/repos/{repo}/deployments?per_page=100'
 
-    with urlopen(Request(method='GET', url=url, headers=HEADER)) as r:
+    with urlopen(Request(method='GET', url=url, headers=reqheader)) as r:
         res = r.read().decode('utf-8')
     resjson = json.loads(res)
 
@@ -165,7 +165,7 @@ def fetch_pairs(repo):
     # currently supports only >= 200 deployments
     if is_pagenated(resp=r):
         url += '&page=2'
-        with urlopen(Request(method='GET', url=url, headers=HEADER)) as r:
+        with urlopen(Request(method='GET', url=url, headers=reqheader)) as r:
             res = r.read().decode('utf-8')
         n = json.loads(res)
         for e in n:
@@ -174,10 +174,10 @@ def fetch_pairs(repo):
     return [{'url': r.get('statuses_url'), 'env': r.get('environment')} for r in resjson]
 
 
-def fetch_environments(repo):
+def fetch_environments(repo, reqheader):
     url = f'https://api.github.com/repos/{repo}/environments'
 
-    with urlopen(Request(method='GET', url=url, headers=HEADER)) as r:
+    with urlopen(Request(method='GET', url=url, headers=reqheader)) as r:
         res = r.read().decode('utf-8')
     resjson = json.loads(res)
 
@@ -204,9 +204,9 @@ def is_inactive_deployment(d):
 
 
 
-def get_deployment_statuses(status_url):
+def get_deployment_statuses(status_url, reqheader):
     # Get deployment statuses_url and return the list of statuses related to the deployment
-    with urlopen(Request(method='GET', url=status_url, headers=HEADER)) as r:
+    with urlopen(Request(method='GET', url=status_url, headers=reqheader)) as r:
         res = r.read().decode('utf-8')
     resjson = json.loads(res)
 
