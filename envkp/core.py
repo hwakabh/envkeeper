@@ -14,6 +14,7 @@ HEADER = {
 }
 
 
+# TODO: fetch from file
 def get_version():
     return '0.1.0'
 
@@ -21,10 +22,8 @@ def get_version():
 def cli():
     p, args = fetch_cli_args()
 
-    # validate subcommand is either: `seek` or `clean`
     # in case we will not use `dest` in subparser, argparse.namespace object is not iterable, need to cast as dict
     if args.subcommand is None:
-        print('Missing subcommand arguments\n')
         p.print_help()
         sys.exit(1)
 
@@ -36,14 +35,18 @@ def cli():
         print(f'{get_version()}')
         sys.exit(1)
 
+    GH_REPONAME = os.environ.get('GH_REPONAME', args.repo)
+    if GH_REPONAME == None:
+        print(f'Missing arguments, add value or use GH_REPONAME with: envkp --repo=owner/name {args.subcommand} \n')
+        p.print_help()
+        sys.exit(1)
 
     # validate format of --repo value and GH_TOKEN
-    if not cli_precheck(repo=args.repo, token=GH_TOKEN):
+    if not cli_precheck(repo=GH_REPONAME, token=GH_TOKEN):
         sys.exit(1)
 
 
-    GH_REPONAME = args.repo
-
+    print('>>> Starting operations')
     # Fetch mappings between environment & deployment
     print(f'Get mappings between environments and deployments from repo: {GH_REPONAME}')
     pairs = fetch_pairs(repo=GH_REPONAME)
@@ -100,6 +103,7 @@ def cli():
                 print('This is active deployment, nothing to do ...')
         print()
 
+    print('Done')
     sys.exit(0)
 
 
@@ -109,8 +113,7 @@ def fetch_cli_args():
         description='envkp controls GitHub staled environments',
         epilog='notes: --token option is not recommended for the security perspectives, please use GH_TOKEN variables instead.'
     )
-    # TODO: --repo can be overriden by GH_REPONAME, so not required=True
-    parser.add_argument('-r', '--repo', required=True, help='target repsitory with \'owner/reponame\' format')
+    parser.add_argument('-r', '--repo', help='target repsitory with \'owner/reponame\' format, can override with `GH_REPONAME` variables')
     parser.add_argument('-V', '--version', action='version', version=get_version())
     parser.add_argument('--token', help='provide GitHub Personal access token')
 
