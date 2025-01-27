@@ -1,11 +1,33 @@
 # Ref:
 # - <https://setuptools.pypa.io/en/latest/userguide/quickstart.html>
+# - <https://github.com/pypa/sampleproject/blob/main/pyproject.toml>
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
 
-# [project]
-# name = "envkeeper"
-# version = "0.0.0"
-# dependencies = []
 
-# [build-system]
-# requires = ["setuptools"]
-# build-backend = "setuptools.build_meta"
+[project]
+# Python Package name should be identical on PyPI
+# Note that PyPI is case-insensitive
+name = "envkeeper"
+
+authors = [{name = "hwakabh", email = "hrykwkbys1024@gmail.com"}]
+dynamic = ["version", "readme"]
+license = {file = "LICENSE"}
+# same as `install_requires` in setup[.py|.cfg] (e.g. httpx, requests, ...etc)
+dependencies = ['setuptools']
+
+[project.optional-dependencies]
+dev = [] # (e.g. pytest)
+
+# same as `console_scritps` in setup[.py|.cfg]
+[project.scripts]
+envkp = "envkp.core:cli"
+# for further developmentswith adding, we can use multiple entries as CLI such as `envkp` & `envkp-dump`:
+# envkp-dump = "envkp.core:dump",
+
+
+[tool.setuptools.dynamic]
+version = {attr = "envkp.__version__"}
+# same as `long_description` in setup[.py|.cfg]
+readme = {file = "README.md", content-type = "text/markdown"}

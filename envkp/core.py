@@ -14,9 +14,9 @@ HEADER = {
 }
 
 
-# TODO: fetch from file
 def get_version():
-    return '0.1.0'
+    from . import __version__
+    return __version__
 
 
 def cli():
