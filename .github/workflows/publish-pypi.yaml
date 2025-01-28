@@ -1,19 +1,18 @@
 name: Python Package Release
 
 on:
-  # for testings
-  pull_request:
+  push:
+    tags:
+      - '*'
   workflow_dispatch:
-  # push:
-  #   tags:
-  #     - '*'
 
 jobs:
   pypi-publish:
     name: Upload release to PyPI
     runs-on: ubuntu-24.04
-    permissions:
-      id-token: write
+    # required if using OIDC for publishing
+    # permissions:
+    #   id-token: write
 
     environment:
       name: pypi
