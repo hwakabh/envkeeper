@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.3](https://github.com/hwakabh/envkeeper/compare/v0.2.2...v0.2.3) (2025-01-28)
+
+
+### Bug Fixes
+
+* **ci:** removed duplications in triggers ([e5b549d](https://github.com/hwakabh/envkeeper/commit/e5b549d32ec18030ce9a4b186dbc3f1e13b520b0))
+
 ## [0.2.2](https://github.com/hwakabh/envkeeper/compare/v0.2.1...v0.2.2) (2025-01-28)
 
 
