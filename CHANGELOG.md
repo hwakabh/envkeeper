@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.3.0](https://github.com/hwakabh/envkeeper/compare/v0.2.3...v0.3.0) (2025-01-28)
+
+
+### Features
+
+* **cli:** implemented asyncio with ProcessPoolExecutor for GitHub API call. ([58b372c](https://github.com/hwakabh/envkeeper/commit/58b372c4719c2337a5f34079b2f0bac0fefa4d4f))
+* **cli:** implemented seek subcommands. ([5aa02c9](https://github.com/hwakabh/envkeeper/commit/5aa02c92a4eaa128c5f18c184b515a69995ca160))
+
 ## [0.2.3](https://github.com/hwakabh/envkeeper/compare/v0.2.2...v0.2.3) (2025-01-28)
 
 
