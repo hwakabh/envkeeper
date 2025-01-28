@@ -87,20 +87,20 @@ def cli():
 
             # Validate deployment can be deleted or not
             is_inactive = is_inactive_deployment(d=deploy_url, reqheader=HEADER)
-            print(f'\tNo active statuses: {is_inactive}')
+            print(f'\tInactive: {is_inactive}')
 
             if is_inactive:
-                print(f'\tDelete the deployment [ {deployment_id} ] ...')
+                print(f'\t>>> Delete the deployment [ {deployment_id} ] ...')
                 url = f'https://api.github.com/repos/{GH_REPONAME}/deployments/{deployment_id}'
                 with urlopen(Request(method='DELETE', url=url, headers=HEADER)) as r:
                     r.read().decode('utf-8')
                 if r.getcode() != 204:
                     print('Error')
                 else:
-                    print(f'>>> Done, {r.getcode()}')
+                    print(f'\t>>> Done, {r.getcode()}')
 
             else:
-                print('This is active deployment, nothing to do ...')
+                print('\t>>> This is active deployment, nothing to do ...')
         print()
 
     print('Done')
