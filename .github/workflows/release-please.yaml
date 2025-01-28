@@ -18,3 +18,4 @@ jobs:
         with:
           manifest-file: .release-please-manifest.json
           config-file: '.github/config/release-please-config.json'
+          token: ${{ secrets.RELEASE_PLEASE_ACTION_PAT }}
