@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.3](https://github.com/hwakabh/envkeeper/compare/v0.3.2...v0.3.3) (2025-01-28)
+
+
+### Bug Fixes
+
+* **cli:** fixed error on unused instantiations. ([76cb2bb](https://github.com/hwakabh/envkeeper/commit/76cb2bbc3ddd112ddc48958c165462145cdbf783))
+
 ## [0.3.2](https://github.com/hwakabh/envkeeper/compare/v0.3.1...v0.3.2) (2025-01-28)
 
 
