@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.2](https://github.com/hwakabh/envkeeper/compare/v0.3.1...v0.3.2) (2025-01-28)
+
+
+### Reverts
+
+* **cli:** async implementations for debug. ([c3814f0](https://github.com/hwakabh/envkeeper/commit/c3814f0e8960a1ed8fbe5b1e5626d298a2d4d581))
+
 ## [0.3.1](https://github.com/hwakabh/envkeeper/compare/v0.3.0...v0.3.1) (2025-01-28)
 
 
