@@ -1,8 +1,9 @@
 import argparse
+import asyncio
+from concurrent.futures import ProcessPoolExecutor
 import json
 import os
 import sys
-
 from urllib.request import urlopen
 from urllib.request import Request
 
@@ -70,6 +71,7 @@ def cli():
     print('')
 
     # Get depoyments related to each environment
+    executor = ProcessPoolExecutor(max_workers=10)
     print('Get deployments related to each environment ...')
     for env in environments:
 
@@ -79,31 +81,11 @@ def cli():
 
         # Get the statues linked to each deployment
         for deploy_url in deploy_urls:
-            deployment_id = deploy_url.split('/')[-2]
-            states = get_deployment_statuses(status_url=deploy_url, reqheader=HEADER)
-            print(f'>>> Found {len(states)} statues in deployment_id [ {deployment_id} ]')
-            # for s in states:
-            #     print(f'\t\tID: {s[0]}, Status: {s[1]}')
+            # Call sync function with `Fire and forget` (not waiting complete of delete_inactive_deployment)
+            asyncio.new_event_loop().run_in_executor(executor, delete_inactive_deployment, deploy_url, HEADER)
 
-            # Validate deployment can be deleted or not
-            is_inactive = is_inactive_deployment(d=deploy_url, reqheader=HEADER)
-            print(f'Inactive: {is_inactive}')
-
-            if is_inactive:
-                print(f'Delete the deployment [ {deployment_id} ] ...')
-                url = f'https://api.github.com/repos/{GH_REPONAME}/deployments/{deployment_id}'
-                with urlopen(Request(method='DELETE', url=url, headers=HEADER)) as r:
-                    r.read().decode('utf-8')
-                if r.getcode() != 204:
-                    print('Error')
-                else:
-                    print(f'Done, {r.getcode()}')
-
-            else:
-                print('This is active deployment, nothing to do ...')
         print()
 
-    print('Done')
     sys.exit(0)
 
 
@@ -209,6 +191,30 @@ def get_deployment_statuses(status_url, reqheader):
     resjson = json.loads(res)
 
     return [(state.get('id'), state.get('state')) for state in resjson]
+
+
+def delete_inactive_deployment (deployment_url, reqheader):
+    deployment_id = deployment_url.split('/')[-2]
+    states = get_deployment_statuses(status_url=deployment_url, reqheader=reqheader)
+    print(f'>>> Found {len(states)} statues in deployment_id [ {deployment_id} ]')
+    # for s in states:
+    #     print(f'\t\tID: {s[0]}, Status: {s[1]}')
+
+    # Validate deployment can be deleted or not
+    is_inactive = is_inactive_deployment(d=deployment_url, reqheader=reqheader)
+    print(f'{deployment_id}: Inactive {is_inactive}')
+
+    if is_inactive:
+        print(f'{deployment_id}: Delete the deployment ...')
+        url = f'https://api.github.com/repos/{GH_REPONAME}/deployments/{deployment_id}'
+        with urlopen(Request(method='DELETE', url=url, headers=reqheader)) as r:
+            r.read().decode('utf-8')
+        if r.getcode() != 204:
+            print('Error')
+        else:
+            print(f'Done, {r.getcode()}')
+    else:
+        print(f'{deployment_id}: Deployment is active, nothing to do ...')
 
 
 # def make_inactive(status_url):
