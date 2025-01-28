@@ -4,9 +4,7 @@ on:
   # https://docs.github.com/en/actions/writing-workflows/choosing-when-your-workflow-runs/events-that-trigger-workflows#release
   release:
     types:
-      - published
       - created
-      - released
   workflow_dispatch:
 
 jobs:
