@@ -1,0 +1,17 @@
+name: Test envkeeper-action
+
+# Test every commits in PR
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Validate envkeeper-actions
+        uses: ./
+        with:
+          token: ${{ github.token }}
+          repo: hwakabh/envkeeper
