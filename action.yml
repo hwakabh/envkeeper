@@ -23,18 +23,25 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - uses: checkout?
-      if: steps.action_black.outputs.is_formatted == 'true'
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup Python
+      uses: actions/setup-python@v5
       with:
-        tool_name: blackfmt
-        fail_on_error: true
+        python-version-file: '.python-version'
 
-    - uses: setup-python?
+    - name: Install envkeeper CLI
+      run: pip install envkp
 
-    - id: context
+    # Pass action inputs to CLI
+    - name: Run envkp
       shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.param1 }}
       run: |
-          echo "action-result=${{ inputs.param1 }}" >> $GITHUB_OUTPUT
+          which envkp
+          envkp --repo=${{ inputs.repo }} clean
 
 branding:
   icon: 'file'
