@@ -6,10 +6,12 @@ Coming from Environment Housekeeper
 
 ***
 
-## as a GitHub Actions
-Custom Composit GitHub Actions to run `Envkeeper` (`envkp`) for housekeeping GitHub Environment.
+## envkeeper-actions
+Custom Composit GitHub Actions to run `Envkeeper` (`envkp`) for housekeeping GitHub Environment. \
+<https://github.com/marketplace/actions/envkeeper-actions>
 
 ### Usage
+Create workflows (ex. `.github/workflows/envkeeper.yaml`) for using GitHub Actions of envkeeper with contexts:
 
 ```yaml
 name: Purge staled environment
@@ -23,17 +25,28 @@ jobs:
   cleanup-env:
     steps:
       - name: Clean up Environments
-        uses: hwakabh/envkeeper@v0.1.0
+        uses: hwakabh/envkeeper@main
+        with:
+          token: ${{ github.token }}
+          repo: ${{ github.repository }}
 ```
 
 ### Inputs
+Inputs have been defined in [`action.yml`](./action.yml):
 
+| Name | Required | Description |
+| --- | --- | --- |
+| `token` | true | Token to use to authorize. Typically the GITHUB_TOKEN secrets. |
+| `repo` | true | Target repository to check issue title. |
+
+Note that GitHub Actions of envkeeper will delete Deployments in the repository, the token has the scope for `repo_deployment`.
 
 ### Outputs
+TBD
 
 ***
 
-## envkp
+## envkp CLI
 TBA for brief descriptions of `envkp`
 
 ### CLI Install
@@ -52,15 +65,18 @@ Download from releases and install via pip
 ### Usage
 
 ```shell
-% envkp clean --repo ${reponame}
-% envkp seek --repo ${reponame}
+% envkp --repo ${reponame} clean
+% envkp --repo ${reponame} seek
 ```
 
 ### Environmental Variables
-`GH_TOKEN`
+
+| Name | Required | Description |
+| --- | --- | --- |
+| `GH_TOKEN` | true | Token to use to authorize. Typically the GITHUB_TOKEN secrets. |
+| `GH_REPONAME` | false | equivalent with the input for `--repo` |
 
 ***
-
 
 ## Good to know / Caveats
 Anything if you have
