@@ -39,9 +39,8 @@ runs:
     - name: Run envkp
       shell: bash
       env:
-        GH_TOKEN: ${{ inputs.param1 }}
+        GH_TOKEN: ${{ inputs.token }}
       run: |
-          which envkp
           envkp --repo=${{ inputs.repo }} clean
 
 branding:
