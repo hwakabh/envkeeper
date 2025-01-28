@@ -9,7 +9,7 @@ build-backend = "setuptools.build_meta"
 [project]
 # Python Package name should be identical on PyPI
 # Note that PyPI is case-insensitive
-name = "envkeeper"
+name = "envkp"
 
 authors = [{name = "hwakabh", email = "hrykwkbys1024@gmail.com"}]
 dynamic = ["version", "readme"]
