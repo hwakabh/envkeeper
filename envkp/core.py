@@ -52,8 +52,8 @@ def cli():
     print(f'Get mappings between environments and deployments from repo: {GH_REPONAME}')
     pairs = fetch_pairs(repo=GH_REPONAME, reqheader=HEADER)
     print(f'Got {len(pairs)}')
-    for p in pairs:
-        print(p)
+    # for p in pairs:
+    #     print(p)
 
     print('')
 
@@ -80,9 +80,13 @@ def cli():
         print(f'Environment [ {env['name']} ] has the following deployments: ')
 
         # Get the statues linked to each deployment
-        for deploy_url in deploy_urls:
-            # Call sync function with `Fire and forget` (not waiting complete of delete_inactive_deployment)
-            asyncio.new_event_loop().run_in_executor(executor, delete_inactive_deployment, deploy_url, HEADER)
+        if args.subcommand == 'clean':
+            for deploy_url in deploy_urls:
+                # Call sync function with `Fire and forget` (not waiting complete of delete_inactive_deployment)
+                asyncio.new_event_loop().run_in_executor(executor, delete_inactive_deployment, deploy_url, HEADER)
+        elif args.subcommand == 'seek':
+            for deploy_url in deploy_urls:
+                print(f'- {deploy_url} (is_inactive: {is_inactive_deployment(d=deploy_url, reqheader=HEADER)})')
 
         print()
 
