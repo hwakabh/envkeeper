@@ -1,9 +1,12 @@
 name: Python Package Release
 
 on:
-  push:
-    tags:
-      - '*'
+  # https://docs.github.com/en/actions/writing-workflows/choosing-when-your-workflow-runs/events-that-trigger-workflows#release
+  release:
+    types:
+      - published
+      - created
+      - released
   workflow_dispatch:
 
 jobs:
@@ -35,6 +38,7 @@ jobs:
 
       - name: Publish package distributions to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
+        # Could be changed with OIDC
         with:
           user: '__token__'
           password: ${{ secrets.PYPI_API_TOKEN }}
