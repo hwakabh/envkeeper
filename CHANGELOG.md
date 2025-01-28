@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.1](https://github.com/hwakabh/envkeeper/compare/v0.3.0...v0.3.1) (2025-01-28)
+
+
+### Bug Fixes
+
+* **actions:** installation process from external repo ([e1e8243](https://github.com/hwakabh/envkeeper/commit/e1e8243a0bfe511da41dfde9aeabedcfa7f91336))
+
 ## [0.3.0](https://github.com/hwakabh/envkeeper/compare/v0.2.3...v0.3.0) (2025-01-28)
 
 
