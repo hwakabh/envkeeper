@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.2](https://github.com/hwakabh/envkeeper/compare/v0.2.1...v0.2.2) (2025-01-28)
+
+
+### Bug Fixes
+
+* **ci:** used PAT instead of GITHUB_TOKEN for release-please-action ([00e911a](https://github.com/hwakabh/envkeeper/commit/00e911aaeacaef72d8e9038fc51fde8d49a3cd4c))
+
 ## [0.2.1](https://github.com/hwakabh/envkeeper/compare/v0.2.0...v0.2.1) (2025-01-28)
 
 
