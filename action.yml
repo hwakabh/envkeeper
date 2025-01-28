@@ -32,6 +32,7 @@ runs:
         python-version-file: '.python-version'
 
     - name: Install envkeeper CLI
+      shell: bash
       run: pip install envkp
 
     # Pass action inputs to CLI
