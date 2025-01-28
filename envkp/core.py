@@ -22,11 +22,11 @@ def cli():
 
     if args.subcommand == 'help':
         p.print_help()
-        sys.exit(1)
+        sys.exit(0)
 
     if args.subcommand == 'version':
         print(f'{get_version()}')
-        sys.exit(1)
+        sys.exit(0)
 
     GH_REPONAME = os.environ.get('GH_REPONAME', args.repo)
     if GH_REPONAME == None:
@@ -59,7 +59,7 @@ def cli():
     # validation: exit if no deployment there
     if len(pairs) == 0:
         print(f'No environment found in repo: {GH_REPONAME}\n')
-        sys.exit(1)
+        sys.exit(0)
 
     # Get list of environment
     print('Get list of environments ...')
@@ -146,7 +146,6 @@ def cli_precheck(repo, token):
     return True
 
 
-
 def fetch_pairs(repo, reqheader):
     # returns the list such as:
     # {'url': 'https://api.github.com/repos/hwakabh/bennu-official.page/deployments/2116891061/statuses', 'env': 'production'}
@@ -203,7 +202,6 @@ def is_inactive_deployment(d):
     return 'inactive' in states
 
 
-
 def get_deployment_statuses(status_url, reqheader):
     # Get deployment statuses_url and return the list of statuses related to the deployment
     with urlopen(Request(method='GET', url=status_url, headers=reqheader)) as r:
@@ -211,7 +209,6 @@ def get_deployment_statuses(status_url, reqheader):
     resjson = json.loads(res)
 
     return [(state.get('id'), state.get('state')) for state in resjson]
-
 
 
 # def make_inactive(status_url):
