@@ -10,6 +10,9 @@
   "pull-request-footer": "This PR was generated with [Release Please](https://github.com/googleapis/release-please) with customized. See [schemas](https://github.com/googleapis/release-please/blob/main/schemas/config.json) for more information",
   "draft-pull-request": false,
   "extra-label": "releases,docs",
+  "extra-files": [
+    "envkp/__init__.py"
+  ],
   "include-component-in-tag": false,
   "include-v-in-tag": true
 }
