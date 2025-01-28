@@ -46,7 +46,7 @@ def cli():
     }
 
 
-    print('>>> Starting operations')
+    print(f'>>> Starting operations: {args.subcommand}')
     # Fetch mappings between environment & deployment
     print(f'Get mappings between environments and deployments from repo: {GH_REPONAME}')
     pairs = fetch_pairs(repo=GH_REPONAME, reqheader=HEADER)
@@ -81,23 +81,23 @@ def cli():
         for deploy_url in deploy_urls:
             deployment_id = deploy_url.split('/')[-2]
             states = get_deployment_statuses(status_url=deploy_url, reqheader=HEADER)
-            print(f'\tFound {len(states)} statues in deployment_id [ {deployment_id} ]')
+            print(f'>>> Found {len(states)} statues in deployment_id [ {deployment_id} ]')
             # for s in states:
             #     print(f'\t\tID: {s[0]}, Status: {s[1]}')
 
             # Validate deployment can be deleted or not
-            is_inactive = is_inactive_deployment(d=deploy_url)
-            print(f'\tNo active statuses: {is_inactive}')
+            is_inactive = is_inactive_deployment(d=deploy_url, reqheader=HEADER)
+            print(f'Inactive: {is_inactive}')
 
             if is_inactive:
-                print(f'\tDelete the deployment [ {deployment_id} ] ...')
+                print(f'Delete the deployment [ {deployment_id} ] ...')
                 url = f'https://api.github.com/repos/{GH_REPONAME}/deployments/{deployment_id}'
                 with urlopen(Request(method='DELETE', url=url, headers=HEADER)) as r:
                     r.read().decode('utf-8')
                 if r.getcode() != 204:
                     print('Error')
                 else:
-                    print(f'>>> Done, {r.getcode()}')
+                    print(f'Done, {r.getcode()}')
 
             else:
                 print('This is active deployment, nothing to do ...')
@@ -193,12 +193,12 @@ def is_pagenated(resp):
     return 'Link' in keys
 
 
-def is_inactive_deployment(d):
+def is_inactive_deployment(d, reqheader):
     # The active deployment will not have `inactive` status in the statuses list
     # we can consider deployment can be deleted if its status contains `inactive`
 
     # TODO: consider the pattern if `in_progress` + `failure`
-    states = [status[1] for status in get_deployment_statuses(status_url=d)]
+    states = [status[1] for status in get_deployment_statuses(status_url=d, reqheader=reqheader)]
     return 'inactive' in states
 
 

@@ -1,0 +1,40 @@
+name: Python Package Release
+
+on:
+  push:
+    tags:
+      - '*'
+  workflow_dispatch:
+
+jobs:
+  pypi-publish:
+    name: Upload release to PyPI
+    runs-on: ubuntu-24.04
+    # required if using OIDC for publishing
+    # permissions:
+    #   id-token: write
+
+    environment:
+      name: pypi
+      url: https://pypi.org/p/envkp
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: '.python-version'
+
+      - name: Build Package
+        shell: bash
+        run: |
+          pip install .
+          python setup.py sdist bdist_wheel
+
+      - name: Publish package distributions to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          user: '__token__'
+          password: ${{ secrets.PYPI_API_TOKEN }}
