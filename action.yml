@@ -33,7 +33,7 @@ runs:
 
     - name: Install envkeeper CLI
       shell: bash
-      run: pip install envkp
+      run: pip install .
 
     # Pass action inputs to CLI
     - name: Run envkp
