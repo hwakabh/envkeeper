@@ -20,6 +20,17 @@ jobs:
       url: https://pypi.org/p/envkp
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: '.python-version'
+      - name: Build Package
+        shell: bash
+        run: |
+          python setup.py sdist
+          python setup.py bdist_wheel
       - name: Publish package distributions to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
