@@ -52,8 +52,8 @@ def cli():
     print(f'Get mappings between environments and deployments from repo: {GH_REPONAME}')
     pairs = fetch_pairs(repo=GH_REPONAME, reqheader=HEADER)
     print(f'Got {len(pairs)}')
-    for p in pairs:
-        print(p)
+    # for p in pairs:
+    #     print(p)
 
     print('')
 
