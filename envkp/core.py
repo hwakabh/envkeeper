@@ -1,10 +1,9 @@
 import argparse
+import asyncio
+from concurrent.futures import ProcessPoolExecutor
 import json
 import os
 import sys
-import asyncio
-from concurrent.futures import ProcessPoolExecutor
-
 from urllib.request import urlopen
 from urllib.request import Request
 
