@@ -86,7 +86,7 @@ def cli():
             #     print(f'\t\tID: {s[0]}, Status: {s[1]}')
 
             # Validate deployment can be deleted or not
-            is_inactive = is_inactive_deployment(d=deploy_url)
+            is_inactive = is_inactive_deployment(d=deploy_url, reqheader=HEADER)
             print(f'\tNo active statuses: {is_inactive}')
 
             if is_inactive:
@@ -193,12 +193,12 @@ def is_pagenated(resp):
     return 'Link' in keys
 
 
-def is_inactive_deployment(d):
+def is_inactive_deployment(d, reqheader):
     # The active deployment will not have `inactive` status in the statuses list
     # we can consider deployment can be deleted if its status contains `inactive`
 
     # TODO: consider the pattern if `in_progress` + `failure`
-    states = [status[1] for status in get_deployment_statuses(status_url=d)]
+    states = [status[1] for status in get_deployment_statuses(status_url=d, reqheader=reqheader)]
     return 'inactive' in states
 
 
