@@ -71,7 +71,7 @@ def cli():
     print('')
 
     # Get depoyments related to each environment
-    executor = ProcessPoolExecutor(max_workers=10)
+    # executor = ProcessPoolExecutor(max_workers=10)
     print('Get deployments related to each environment ...')
     for env in environments:
 
