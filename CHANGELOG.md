@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/hwakabh/envkeeper/compare/v0.2.0...v0.2.1) (2025-01-28)
+
+
+### Bug Fixes
+
+* **ci:** updated triggers for release. ([8d259b6](https://github.com/hwakabh/envkeeper/commit/8d259b67369bdb9aba3c46a442f36f25893b9792))
+
 ## [0.2.0](https://github.com/hwakabh/envkeeper/compare/v0.1.0...v0.2.0) (2025-01-28)
 
 
