@@ -110,6 +110,23 @@ def cli():
             for deploy_url in deploy_urls:
                 print(f'- {deploy_url} (is_inactive: {is_inactive_deployment(d=deploy_url, reqheader=HEADER)})')
 
+
+        # Clean up environments if no deployments related
+        if args.subcommand == 'clean':
+            deploy_urls = get_deployments_by_env(mappings=pairs, env_name=env['name'])
+            if len(deploy_urls) == 0:
+                print(f'>>> No deployments in environment [ {env['name']} ], clean up ...')
+                url = 'https://api.github.com/repos/{repo}/environments/{envname}'.format(
+                    repo=GH_REPONAME,
+                    envname=env['name']
+                )
+                with urlopen(Request(method='DELETE', url=url, headers=HEADER)) as r:
+                    r.read().decode('utf-8')
+                if r.getcode() != 204:
+                    print('Error')
+                else:
+                    print(f'Done, {r.getcode()}')
+
         print()
 
     print(f'>>> Operation {args.subcommand} completed.')
