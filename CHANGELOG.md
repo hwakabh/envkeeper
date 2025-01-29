@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/hwakabh/envkeeper/compare/v0.3.3...v0.4.0) (2025-01-29)
+
+
+### Features
+
+* **cli:** added cleanups of blank environments. ([db465ef](https://github.com/hwakabh/envkeeper/commit/db465ef274ec95cd4eb10f3d17b05e119b58b2a3))
+
 ## [0.3.3](https://github.com/hwakabh/envkeeper/compare/v0.3.2...v0.3.3) (2025-01-28)
 
 
