@@ -1,6 +1,6 @@
 # envkeeper
 
-
+<!-- *** -->
 ## What is Envkeeper?
 `Envkeeper`, coming from "Environment Housekeeper", is a custom [composite GitHub Actions](https://docs.github.com/en/actions/sharing-automations/creating-actions/about-custom-actions#composite-actions) to manage GitHub Deployments and its Environment associated. \
 Thanks to this great features of GitHub, we can realize [Continuous Delivery by GitHub Actions](https://docs.github.com/en/actions/about-github-actions/about-continuous-deployment-with-github-actions), and you can use GitHub Envionments for the applications [integrated](https://docs.github.com/en/actions/use-cases-and-examples/deploying/deploying-with-github-actions#using-environments) its repo.
@@ -10,8 +10,7 @@ So you might see many of staled environements/deployments have been associated t
 
 With using `envkp` CLI, which will be available with Envkeeper, you can completely purge these staled deployments and linked environments.
 
-***
-
+<!-- *** -->
 ## envkeeper-actions
 As you can use Envkeeper with several forms of implementations according to your requirements, one of the best way is to use as GitHub Actions. \
 Since we developed Custom Composit GitHub Actions to run `Envkeeper` (`envkp`) for housekeeping GitHub Environment, it can be available in [GitHub Marketplace](https://github.com/marketplace/actions/envkeeper-actions).
@@ -58,10 +57,14 @@ Inputs have been defined in [`action.yml`](./action.yml):
 Note that GitHub Actions of envkeeper will delete Deployments in the repository, the token has the scope for `repo_deployment`.
 
 ### Outputs
-TBD
+TBU, under development.
 
-***
+| Name | Required | Description |
+| --- | --- | --- |
+| `result` | false | The results of operations |
 
+
+<!-- *** -->
 ## envkp CLI
 As well as envkeeper-actions, you can also use `envkp` on your local environment as client tools. \
 Since `envkp` has been developed purely as Python package, it can be available in [PyPI repository](https://pypi.org/project/envkp/).
@@ -118,8 +121,8 @@ Please note that the value for `--repo` should be formed as `owner/reponame`, fo
 | `GH_TOKEN` | true | Token to use to authorize. Typically the GITHUB_TOKEN secrets. |
 | `GH_REPONAME` | false | equivalent with the input for `--repo` |
 
-***
 
+<!-- *** -->
 ## Good to know / Caveats
 Anything if you have
 
