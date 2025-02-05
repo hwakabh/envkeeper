@@ -6,7 +6,7 @@
 Thanks to this great features of GitHub, we can realize [Continuous Delivery by GitHub Actions](https://docs.github.com/en/actions/about-github-actions/about-continuous-deployment-with-github-actions), and you can use GitHub Envionments for the applications [integrated](https://docs.github.com/en/actions/use-cases-and-examples/deploying/deploying-with-github-actions#using-environments) its repo.
 
 As many of application platforms (PaaS) have PR environments, where it can automatically create GitHub Environment/Deployments and associated acutal deploys on the platforms with linking to Pull Requests, but several services will NOT clean up after the PRs will be merged. \
-So you might see many of staled environements/deployments have been associated to your repository, and for resolving these kind of caveats we need to have any solutions to purge staled objects in GitHub.
+So you might see many of staled environements/deployments have been associated to your repository, and for resolving these kind of caveats we need to have any solutions to purge staled objects in GitHub ([StackOverflow's ref](https://stackoverflow.com/questions/53452910/how-to-remove-a-github-environment)).
 
 With using `envkp` CLI, which will be available with Envkeeper, you can completely purge these staled deployments and linked environments.
 
@@ -124,5 +124,7 @@ Please note that the value for `--repo` should be formed as `owner/reponame`, fo
 
 <!-- *** -->
 ## Good to know / Caveats
-Anything if you have
+Similar solutions it can be available on GitHub:
+- <https://github.com/strumwolf/delete-deployment-environment>
+- <https://github.com/int128/delete-deployments-action>
 
