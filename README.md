@@ -2,7 +2,10 @@
 
 
 ## What is Envkeeper?
-Coming from Environment Housekeeper
+`Envkeeper`, coming from "Environment Housekeeper", is a custom [composite GitHub Actions](https://docs.github.com/en/actions/sharing-automations/creating-actions/about-custom-actions#composite-actions) to manage GitHub Deployments and its Environment associated. \
+Thanks to this great features of GitHub, we can realize [Continuous Delivery by GitHub Actions](https://docs.github.com/en/actions/about-github-actions/about-continuous-deployment-with-github-actions), and you can use GitHub Envionments for the applications [integrated](https://docs.github.com/en/actions/use-cases-and-examples/deploying/deploying-with-github-actions#using-environments) its repo.
+
+
 
 ***
 
