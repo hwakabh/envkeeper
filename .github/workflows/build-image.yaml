@@ -1,10 +1,9 @@
 name: Build Container Image
 
 on:
-  # push:
-  #   branches:
-  #     - main
-  pull_request:
+  push:
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
