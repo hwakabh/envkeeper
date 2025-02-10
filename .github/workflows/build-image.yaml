@@ -32,7 +32,7 @@ jobs:
       - name: Build application images
         run: |
           pack build ghcr.io/hwakabh/envkp:latest \
-            --buildpack paketo-buildpacks/python
+            --buildpack paketo-buildpacks/python \
             --builder paketobuildpacks/builder-jammy-base \
             --path . \
             --verbose \
