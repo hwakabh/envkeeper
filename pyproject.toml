@@ -12,8 +12,16 @@ build-backend = "setuptools.build_meta"
 name = "envkp"
 
 authors = [{name = "hwakabh", email = "hrykwkbys1024@gmail.com"}]
+description = "GitHub Environment Housekeeper"
 dynamic = ["version", "readme"]
 license = {file = "LICENSE"}
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3.13",
+]
+
 # same as `install_requires` in setup[.py|.cfg] (e.g. httpx, requests, ...etc)
 dependencies = ['setuptools']
 
@@ -26,6 +34,10 @@ envkp = "envkp.core:cli"
 # for further developmentswith adding, we can use multiple entries as CLI such as `envkp` & `envkp-dump`:
 # envkp-dump = "envkp.core:dump",
 
+[project.urls]
+"Homepage" = "https://github.com/hwakabh/envkeeper"
+"Bug Tracker" = "https://github.com/hwakabh/envkeeper/issues"
+"Source" = "https://github.com/hwakabh/envkeeper"
 
 [tool.setuptools.dynamic]
 version = {attr = "envkp.__version__"}
