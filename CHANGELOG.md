@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.5.0](https://github.com/hwakabh/envkeeper/compare/v0.4.0...v0.5.0) (2025-02-10)
+
+
+### Features
+
+* added build pipeline. ([c9d4c05](https://github.com/hwakabh/envkeeper/commit/c9d4c050fe3431d3410fb4f0769a3bed0efad6dd))
+
+
+### Bug Fixes
+
+* added setup-python and Procfile for builds. ([2733875](https://github.com/hwakabh/envkeeper/commit/2733875aa1b85a5c7b5b22af583702ce9fafe6d3))
+
+
+### Continuous Integration
+
+* enhanced release-please configs. ([83af186](https://github.com/hwakabh/envkeeper/commit/83af1862df54367919c1b1912336840808b08f1c))
+
 ## [0.4.0](https://github.com/hwakabh/envkeeper/compare/v0.3.3...v0.4.0) (2025-01-29)
 
 
