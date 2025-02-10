@@ -1,6 +1,4 @@
 import argparse
-# import asyncio
-# from concurrent.futures import ProcessPoolExecutor
 import json
 import os
 import sys
@@ -71,7 +69,6 @@ def cli():
     print('')
 
     # Get depoyments related to each environment
-    # executor = ProcessPoolExecutor(max_workers=10)
     print('Get deployments related to each environment ...')
     for env in environments:
 
@@ -83,7 +80,6 @@ def cli():
         if args.subcommand == 'clean':
             for deploy_url in deploy_urls:
                 # # Call sync function with `Fire and forget` (not waiting complete of delete_inactive_deployment)
-                # asyncio.new_event_loop().run_in_executor(executor, delete_inactive_deployment, deploy_url, HEADER)
                 deployment_id = deploy_url.split('/')[-2]
                 states = get_deployment_statuses(status_url=deploy_url, reqheader=HEADER)
                 print(f'>>> Found {len(states)} statues in deployment_id [ {deployment_id} ]')
