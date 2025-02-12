@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.1](https://github.com/hwakabh/envkeeper/compare/v0.5.0...v0.5.1) (2025-02-12)
+
+
+### Bug Fixes
+
+* added repository options to checkout in being triggered. ([0c5de5e](https://github.com/hwakabh/envkeeper/commit/0c5de5ecc8f0a5d57ad2a03cacc9c6d7efea84d5))
+
 ## [0.5.0](https://github.com/hwakabh/envkeeper/compare/v0.4.0...v0.5.0) (2025-02-10)
 
 
