@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.2](https://github.com/hwakabh/envkeeper/compare/v0.6.1...v0.6.2) (2025-03-02)
+
+
+### Bug Fixes
+
+* typo in status_code returned from delete_inactive_deployment(). ([8706cdb](https://github.com/hwakabh/envkeeper/commit/8706cdb4f26fc2c66aed99216e6d8f4925f08ba3))
+
 ## [0.6.1](https://github.com/hwakabh/envkeeper/compare/v0.6.0...v0.6.1) (2025-03-02)
 
 
