@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.6.0](https://github.com/hwakabh/envkeeper/compare/v0.5.1...v0.6.0) (2025-03-02)
+
+
+### Features
+
+* enabled to handle failure deployments. ([ea36f32](https://github.com/hwakabh/envkeeper/commit/ea36f3247170b4d4905d43e12a93dc30b67b435c))
+
+
+### Code Refactoring
+
+* commented out delete_inactive_deployment(). ([d253f11](https://github.com/hwakabh/envkeeper/commit/d253f11e8f8081ffa3320bbe87b8099b4e5b4beb))
+
 ## [0.5.1](https://github.com/hwakabh/envkeeper/compare/v0.5.0...v0.5.1) (2025-02-12)
 
 
