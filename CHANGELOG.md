@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.6.1](https://github.com/hwakabh/envkeeper/compare/v0.6.0...v0.6.1) (2025-03-02)
+
+
+### Bug Fixes
+
+* conditions to determine deployment status. ([32b0dfe](https://github.com/hwakabh/envkeeper/commit/32b0dfe63389ce957cb0e5644982745564296d3c))
+* variables names in delete_inactive_deployment(). ([3824e31](https://github.com/hwakabh/envkeeper/commit/3824e3118407947898b591ed9a827454bb6c6535))
+
+
+### Continuous Integration
+
+* **deps:** updated Python for build errors with Paketo Python buildpacks. ([b55abb3](https://github.com/hwakabh/envkeeper/commit/b55abb37006a6681da7171d3cda509bb8459939c))
+
 ## [0.6.0](https://github.com/hwakabh/envkeeper/compare/v0.5.1...v0.6.0) (2025-03-02)
 
 
