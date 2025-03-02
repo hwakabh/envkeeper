@@ -104,7 +104,7 @@ def cli():
                         gh_reponame=GH_REPONAME,
                         reqheader=HEADER
                     )
-                    if status_code() != 204:
+                    if status_code != 204:
                         print('Error')
                     else:
                         print(f'Done, {status_code}')
