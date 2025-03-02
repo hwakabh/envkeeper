@@ -91,14 +91,15 @@ def cli():
                 print(f'{deployment_id}: Inactive {is_inactive}')
 
                 if is_inactive:
-                    print(f'{deployment_id}: Delete the deployment ...')
-                    url = f'https://api.github.com/repos/{GH_REPONAME}/deployments/{deployment_id}'
-                    with urlopen(Request(method='DELETE', url=url, headers=HEADER)) as r:
-                        r.read().decode('utf-8')
-                    if r.getcode() != 204:
+                    status_code = delete_inactive_deployment(
+                        deployment_id=deployment_id,
+                        gh_reponame=GH_REPONAME,
+                        reqheader=HEADER
+                    )
+                    if status_code() != 204:
                         print('Error')
                     else:
-                        print(f'Done, {r.getcode()}')
+                        print(f'Done, {status_code}')
                 else:
                     print(f'{deployment_id}: Deployment is active, nothing to do ...')
 
@@ -233,8 +234,12 @@ def get_deployment_statuses(status_url, reqheader):
     return [(state.get('id'), state.get('state')) for state in resjson]
 
 
-# def delete_inactive_deployment (deploy_url, reqheader):
-#     pass
+def delete_inactive_deployment(deployment_id, gh_reponame, reqheader):
+    print(f'{deployment_id}: Delete the deployment ...')
+    url = f'https://api.github.com/repos/{GH_REPONAME}/deployments/{deployment_id}'
+    with urlopen(Request(method='DELETE', url=url, headers=reqheader)) as r:
+        r.read().decode('utf-8')
+    return r.getcode()
 
 
 # def make_inactive(status_url):
