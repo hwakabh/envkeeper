@@ -251,7 +251,7 @@ def get_deployment_statuses(status_url, reqheader):
 
 def delete_inactive_deployment(deployment_id, gh_reponame, reqheader):
     print(f'{deployment_id}: Delete the deployment ...')
-    url = f'https://api.github.com/repos/{GH_REPONAME}/deployments/{deployment_id}'
+    url = f'https://api.github.com/repos/{gh_reponame}/deployments/{deployment_id}'
     with urlopen(Request(method='DELETE', url=url, headers=reqheader)) as r:
         r.read().decode('utf-8')
     return r.getcode()
