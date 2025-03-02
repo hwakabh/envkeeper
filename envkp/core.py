@@ -230,7 +230,14 @@ def is_inactive_deployment(d, reqheader):
     # (since the condition `'inactive' in states` could not catch the pattern of `in-progress` + `failure`)
 
     states = [status[1] for status in get_deployment_statuses(status_url=d, reqheader=reqheader)]
-    return 'success' not in states
+
+    is_inactive = False
+    if 'inactive' in states:
+        is_inactive = True
+    if 'success' not in states:
+        is_inactive = True
+
+    return is_inactive
 
 
 def get_deployment_statuses(status_url, reqheader):
