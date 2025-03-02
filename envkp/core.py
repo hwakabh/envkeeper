@@ -5,6 +5,8 @@ import sys
 from urllib.request import urlopen
 from urllib.request import Request
 
+from urllib.error import HTTPError
+
 
 def get_version():
     from . import __version__
@@ -48,7 +50,13 @@ def cli():
     print(f'>>> Starting operations: {args.subcommand}')
     # Fetch mappings between environment & deployment
     print(f'Get mappings between environments and deployments from repo: {GH_REPONAME}')
-    pairs = fetch_pairs(repo=GH_REPONAME, reqheader=HEADER)
+    try:
+        pairs = fetch_pairs(repo=GH_REPONAME, reqheader=HEADER)
+    except HTTPError as e:
+        print(f'Failed to fetch targets from repository: {GH_REPONAME}')
+        print(e)
+        sys.exit(1)
+
     print(f'Got {len(pairs)}')
     # for p in pairs:
     #     print(p)
