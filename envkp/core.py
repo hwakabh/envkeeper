@@ -225,12 +225,12 @@ def is_pagenated(resp):
 
 
 def is_inactive_deployment(d, reqheader):
-    # The active deployment will not have `inactive` status in the statuses list
-    # we can consider deployment can be deleted if its status contains `inactive`
+    # The active deployment will have `success` status in the statuses list
+    # we can consider deployment can be deleted if its status contains `inactive`, `in-progress`, or `failure`
+    # (since the condition `'inactive' in states` could not catch the pattern of `in-progress` + `failure`)
 
-    # TODO: consider the pattern if `in_progress` + `failure`
     states = [status[1] for status in get_deployment_statuses(status_url=d, reqheader=reqheader)]
-    return 'inactive' in states
+    return 'success' not in states
 
 
 def get_deployment_statuses(status_url, reqheader):
