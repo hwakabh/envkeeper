@@ -20,7 +20,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Check Issue Title
-        uses: hwakabh/semantic-issue-action@v0.5.8
+        uses: hwakabh/semantic-issue-action@v0.5.9
         with:
           repo: ${{ github.repository }}
           token: ${{ secrets.GITHUB_TOKEN }}
