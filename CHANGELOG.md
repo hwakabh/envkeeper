@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.7.0](https://github.com/hwakabh/envkeeper/compare/v0.6.2...v0.7.0) (2025-06-08)
+
+
+### Features
+
+* added pipeline for checking before builds ([2c4c638](https://github.com/hwakabh/envkeeper/commit/2c4c63849147f99b3fe8d461a45565cf91264989))
+* **ci:** added test pipeline for building OCI images. ([a55e6b7](https://github.com/hwakabh/envkeeper/commit/a55e6b77542bc2690bc617bfbe5d48216cc0be83))
+
+
+### Documentation
+
+* added links for docs about GITHUB_TOKEN. ([88a0487](https://github.com/hwakabh/envkeeper/commit/88a0487f7dadf7ef777e8b5426383341834290dd))
+
 ## [0.6.2](https://github.com/hwakabh/envkeeper/compare/v0.6.1...v0.6.2) (2025-03-02)
 
 
