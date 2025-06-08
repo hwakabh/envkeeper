@@ -51,7 +51,7 @@ Inputs have been defined in [`action.yml`](./action.yml):
 
 | Name | Required | Description |
 | --- | --- | --- |
-| `token` | true | Token to use to authorize. Typically the GITHUB_TOKEN secrets. |
+| `token` | true | Token to use to authorize. Typically the [GITHUB_TOKEN](https://docs.github.com/en/actions/security-for-github-actions/security-guides/automatic-token-authentication#about-the-github_token-secret) secrets. |
 | `repo` | true | Target repository to check issue title. |
 
 Note that GitHub Actions of envkeeper will delete Deployments in the repository, the token has the scope for `repo_deployment`.
