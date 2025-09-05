@@ -21,7 +21,7 @@ jobs:
       #   # https://github.com/technote-space/assign-author
 
       - name: Label to PR
-        uses: actions/labeler@v5
+        uses: actions/labeler@v6
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
           sync-labels: true
