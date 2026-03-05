@@ -10,5 +10,15 @@
   ],
   "labels": ["deps", "renovate"],
   "baseBranches": ["main"],
-  "rangeStrategy": "bump"
+  "rangeStrategy": "bump",
+  "platformAutomerge": true,
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "automerge": true,
+      "automergeType": "pr",
+      "automergeStrategy": "merge-commit",
+      "minimumReleaseAge": "12 hours"
+    }
+  ]
 }
