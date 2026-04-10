@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.7.1](https://github.com/hwakabh/envkeeper/compare/v0.7.0...v0.7.1) (2026-04-10)
+
+
+### Continuous Integration
+
+* enabled feature of auto-merge in renovate. ([7d4bd61](https://github.com/hwakabh/envkeeper/commit/7d4bd615fc9b90caf01915e7249b8f9ff18d290a))
+* enabled feature of auto-merge in renovate. ([de59147](https://github.com/hwakabh/envkeeper/commit/de59147e654c9e8ab4652753ca956eb4165615d3))
+
 ## [0.7.0](https://github.com/hwakabh/envkeeper/compare/v0.6.2...v0.7.0) (2025-06-08)
 
 
