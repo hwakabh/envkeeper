@@ -1,6 +1,7 @@
 import argparse
 import json
 import os
+import re
 import sys
 from urllib.request import urlopen
 from urllib.request import Request
@@ -142,11 +143,10 @@ def fetch_cli_args():
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawDescriptionHelpFormatter,
         description='envkp controls GitHub staled environments',
-        epilog='notes: --token option is not recommended for the security perspectives, please use GH_TOKEN variables instead.'
+        epilog='notes: please set GH_TOKEN environment variable for authentication.'
     )
     parser.add_argument('-r', '--repo', help='target repsitory with \'owner/reponame\' format, can override with `GH_REPONAME` variables')
     parser.add_argument('-V', '--version', action='version', version=get_version())
-    parser.add_argument('--token', help='provide GitHub Personal access token')
 
     subparsers = parser.add_subparsers(dest='subcommand')
 
@@ -165,13 +165,15 @@ def fetch_cli_args():
 def cli_precheck(repo, token):
     print('Fetching GitHub username & repository name from shell')
 
-    if (len(repo.split('/')) != 2):
+    # GitHub owner/repo names allow only alphanumerics, hyphens, underscores, and dots
+    repo_pattern = re.compile(r'^[A-Za-z0-9._-]+/[A-Za-z0-9._-]+$')
+    if not repo_pattern.match(repo):
         print('>>> GH_REPONAME format invalid, please set the value with `repo_owner/repo_name` format.\n')
         return False
 
     print('Fetching GitHub PAT from shell')
     if token is None:
-        print('>>> GH_TOKEN not provides, please set environmental variable with your shell.\n')
+        print('>>> GH_TOKEN not provided, please set environmental variable with your shell.\n')
         return False
 
     return True
