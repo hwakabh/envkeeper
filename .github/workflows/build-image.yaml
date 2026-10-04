@@ -47,7 +47,7 @@ jobs:
         run: |
           pack build ghcr.io/hwakabh/envkp:latest \
             --buildpack paketo-buildpacks/python \
-            --builder paketobuildpacks/builder-jammy-base \
+            --builder paketobuildpacks/ubuntu-resolute-builder \
             --default-process entrypoint \
             --env BP_CPYTHON_VERSION=$(cat .python-version) \
             --path . \
