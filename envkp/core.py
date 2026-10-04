@@ -54,7 +54,7 @@ def cli():
         pairs = fetch_pairs(repo=GH_REPONAME, reqheader=HEADER)
     except HTTPError as e:
         print(f'Failed to fetch targets from repository: {GH_REPONAME}')
-        print(e)
+        print(f'HTTP {e.code}: {e.reason}')
         sys.exit(1)
 
     print(f'Got {len(pairs)}')
@@ -70,7 +70,17 @@ def cli():
 
     # Get list of environment
     print('Get list of environments ...')
-    environments = fetch_environments(repo=GH_REPONAME, reqheader=HEADER)
+    try:
+        environments = fetch_environments(repo=GH_REPONAME, reqheader=HEADER)
+    except HTTPError as e:
+        print(f'Failed to fetch environments from repository: {GH_REPONAME}')
+        print(f'HTTP {e.code}: {e.reason}')
+        sys.exit(1)
+
+    if not environments:
+        print(f'No environments found in repo: {GH_REPONAME}\n')
+        sys.exit(0)
+
     for e in environments:
         print(e['name'])
 
@@ -82,30 +92,42 @@ def cli():
 
         # URL list of deployment
         deploy_urls = get_deployments_by_env(mappings=pairs, env_name=env['name'])
-        print(f'Environment [ {env['name']} ] has the following deployments: ')
+        print(f'Environment [ {env["name"]} ] has the following deployments: ')
 
         # Get the statues linked to each deployment
         if args.subcommand == 'clean':
             for deploy_url in deploy_urls:
                 # # Call sync function with `Fire and forget` (not waiting complete of delete_inactive_deployment)
                 deployment_id = deploy_url.split('/')[-2]
-                states = get_deployment_statuses(status_url=deploy_url, reqheader=HEADER)
+                try:
+                    states = get_deployment_statuses(status_url=deploy_url, reqheader=HEADER)
+                except HTTPError as e:
+                    print(f'{deployment_id}: Failed to fetch deployment statuses (HTTP {e.code}: {e.reason}), skipping')
+                    continue
                 print(f'>>> Found {len(states)} statues in deployment_id [ {deployment_id} ]')
                 # for s in states:
                 #     print(f'\t\tID: {s[0]}, Status: {s[1]}')
 
                 # Validate deployment can be deleted or not
-                is_inactive = is_inactive_deployment(d=deploy_url, reqheader=HEADER)
+                try:
+                    is_inactive = is_inactive_deployment(d=deploy_url, reqheader=HEADER)
+                except HTTPError as e:
+                    print(f'{deployment_id}: Failed to check deployment status (HTTP {e.code}: {e.reason}), skipping')
+                    continue
                 print(f'{deployment_id}: Inactive {is_inactive}')
 
                 if is_inactive:
-                    status_code = delete_inactive_deployment(
-                        deployment_id=deployment_id,
-                        gh_reponame=GH_REPONAME,
-                        reqheader=HEADER
-                    )
+                    try:
+                        status_code = delete_inactive_deployment(
+                            deployment_id=deployment_id,
+                            gh_reponame=GH_REPONAME,
+                            reqheader=HEADER
+                        )
+                    except HTTPError as e:
+                        print(f'{deployment_id}: Failed to delete deployment (HTTP {e.code}: {e.reason})')
+                        continue
                     if status_code != 204:
-                        print('Error')
+                        print(f'{deployment_id}: Unexpected response status {status_code} when deleting deployment')
                     else:
                         print(f'Done, {status_code}')
                 else:
@@ -113,22 +135,31 @@ def cli():
 
         elif args.subcommand == 'seek':
             for deploy_url in deploy_urls:
-                print(f'- {deploy_url} (is_inactive: {is_inactive_deployment(d=deploy_url, reqheader=HEADER)})')
+                try:
+                    inactive = is_inactive_deployment(d=deploy_url, reqheader=HEADER)
+                except HTTPError as e:
+                    print(f'- {deploy_url} (failed to check status: HTTP {e.code}: {e.reason})')
+                    continue
+                print(f'- {deploy_url} (is_inactive: {inactive})')
 
 
         # Clean up environments if no deployments related
         if args.subcommand == 'clean':
             deploy_urls = get_deployments_by_env(mappings=pairs, env_name=env['name'])
             if len(deploy_urls) == 0:
-                print(f'>>> No deployments in environment [ {env['name']} ], clean up ...')
+                print(f'>>> No deployments in environment [ {env["name"]} ], clean up ...')
                 url = 'https://api.github.com/repos/{repo}/environments/{envname}'.format(
                     repo=GH_REPONAME,
                     envname=env['name']
                 )
-                with urlopen(Request(method='DELETE', url=url, headers=HEADER)) as r:
-                    r.read().decode('utf-8')
+                try:
+                    with urlopen(Request(method='DELETE', url=url, headers=HEADER)) as r:
+                        r.read().decode('utf-8')
+                except HTTPError as e:
+                    print(f'Failed to delete environment {env["name"]} (HTTP {e.code}: {e.reason})')
+                    continue
                 if r.getcode() != 204:
-                    print('Error')
+                    print(f'Unexpected response status {r.getcode()} when deleting environment {env["name"]}')
                 else:
                     print(f'Done, {r.getcode()}')
 
@@ -195,11 +226,14 @@ def fetch_pairs(repo, reqheader):
     # currently supports only >= 200 deployments
     if is_pagenated(resp=r):
         url += '&page=2'
-        with urlopen(Request(method='GET', url=url, headers=reqheader)) as r:
-            res = r.read().decode('utf-8')
-        n = json.loads(res)
-        for e in n:
-            resjson.append(e)
+        try:
+            with urlopen(Request(method='GET', url=url, headers=reqheader)) as r:
+                res = r.read().decode('utf-8')
+            n = json.loads(res)
+            for e in n:
+                resjson.append(e)
+        except HTTPError as e:
+            print(f'Warning: failed to fetch page 2 of deployments (HTTP {e.code}: {e.reason}), continuing with first page only')
 
     return [{'url': r.get('statuses_url'), 'env': r.get('environment')} for r in resjson]
 
@@ -211,7 +245,7 @@ def fetch_environments(repo, reqheader):
         res = r.read().decode('utf-8')
     resjson = json.loads(res)
 
-    return resjson.get('environments')
+    return resjson.get('environments', [])
 
 
 def get_deployments_by_env(mappings, env_name):
