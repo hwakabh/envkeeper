@@ -1,11 +1,13 @@
 import argparse
-import json
 import os
 import sys
-from urllib.request import urlopen
-from urllib.request import Request
 
 from urllib.error import HTTPError
+
+from .github_api import api_delete
+from .github_api import api_get
+from .github_api import build_repo_url
+from .github_api import check_delete_result
 
 
 def get_version():
@@ -97,7 +99,6 @@ def cli():
         # Get the statues linked to each deployment
         if args.subcommand == 'clean':
             for deploy_url in deploy_urls:
-                # # Call sync function with `Fire and forget` (not waiting complete of delete_inactive_deployment)
                 deployment_id = deploy_url.split('/')[-2]
                 try:
                     states = get_deployment_statuses(status_url=deploy_url, reqheader=HEADER)
@@ -105,8 +106,6 @@ def cli():
                     print(f'{deployment_id}: Failed to fetch deployment statuses (HTTP {e.code}: {e.reason}), skipping')
                     continue
                 print(f'>>> Found {len(states)} statues in deployment_id [ {deployment_id} ]')
-                # for s in states:
-                #     print(f'\t\tID: {s[0]}, Status: {s[1]}')
 
                 # Validate deployment can be deleted or not
                 try:
@@ -132,6 +131,14 @@ def cli():
                         print(f'Done, {status_code}')
                 else:
                     print(f'{deployment_id}: Deployment is active, nothing to do ...')
+
+            # Re-check remaining deployments after deletions
+            remaining = get_deployments_by_env(mappings=pairs, env_name=env['name'])
+            if len(remaining) == 0:
+                print(f'>>> No deployments in environment [ {env['name']} ], clean up ...')
+                url = build_repo_url(GH_REPONAME, 'environments', env['name'])
+                status_code = api_delete(url, HEADER)
+                check_delete_result(status_code, f'environment {env["name"]}')
 
         elif args.subcommand == 'seek':
             for deploy_url in deploy_urls:
@@ -216,11 +223,9 @@ def fetch_pairs(repo, reqheader):
     # ...
     # this is the core mappings between env name & deployment
 
-    url = f'https://api.github.com/repos/{repo}/deployments?per_page=100'
+    url = build_repo_url(repo, 'deployments') + '?per_page=100'
 
-    with urlopen(Request(method='GET', url=url, headers=reqheader)) as r:
-        res = r.read().decode('utf-8')
-    resjson = json.loads(res)
+    resjson, r = api_get(url, reqheader)
 
     # TODO: be dynamic with fetching GitHub pagenations
     # currently supports only >= 200 deployments
@@ -276,19 +281,14 @@ def is_inactive_deployment(d, reqheader):
 
 def get_deployment_statuses(status_url, reqheader):
     # Get deployment statuses_url and return the list of statuses related to the deployment
-    with urlopen(Request(method='GET', url=status_url, headers=reqheader)) as r:
-        res = r.read().decode('utf-8')
-    resjson = json.loads(res)
-
+    resjson, _ = api_get(status_url, reqheader)
     return [(state.get('id'), state.get('state')) for state in resjson]
 
 
 def delete_inactive_deployment(deployment_id, gh_reponame, reqheader):
     print(f'{deployment_id}: Delete the deployment ...')
-    url = f'https://api.github.com/repos/{gh_reponame}/deployments/{deployment_id}'
-    with urlopen(Request(method='DELETE', url=url, headers=reqheader)) as r:
-        r.read().decode('utf-8')
-    return r.getcode()
+    url = build_repo_url(gh_reponame, 'deployments', deployment_id)
+    return api_delete(url, reqheader)
 
 
 # def make_inactive(status_url):
