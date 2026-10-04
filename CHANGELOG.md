@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.7.2](https://github.com/hwakabh/envkeeper/compare/v0.7.1...v0.7.2) (2026-10-04)
+
+
+### Bug Fixes
+
+* address critical security vulnerabilities ([#104](https://github.com/hwakabh/envkeeper/issues/104)) ([5b293fb](https://github.com/hwakabh/envkeeper/commit/5b293fb4e6c2ddd4e0347c7320efe4495f5f883b))
+* improve error handling — catch HTTPError, add context, guard against None ([#102](https://github.com/hwakabh/envkeeper/issues/102)) ([19bcb1d](https://github.com/hwakabh/envkeeper/commit/19bcb1d8cb5f2fae3743e1c21e94ac39c9f73141))
+
+
+### Code Refactoring
+
+* extract duplicated HTTP/URL patterns into shared github_api module ([#103](https://github.com/hwakabh/envkeeper/issues/103)) ([9cd32fe](https://github.com/hwakabh/envkeeper/commit/9cd32fe17902187806882ca97911556a0135de74))
+
+
+### Tests
+
+* add unit tests for envkp/core.py and envkp/github_api.py ([#105](https://github.com/hwakabh/envkeeper/issues/105)) ([8ddf7b3](https://github.com/hwakabh/envkeeper/commit/8ddf7b3ca7006e2eb3149532eb47690d2bbf2455))
+
 ## [0.7.1](https://github.com/hwakabh/envkeeper/compare/v0.7.0...v0.7.1) (2026-04-12)
 
 
