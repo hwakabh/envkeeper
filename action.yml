@@ -42,8 +42,9 @@ runs:
       shell: bash
       env:
         GH_TOKEN: ${{ inputs.token }}
+        GH_REPONAME: ${{ inputs.repo }}
       run: |
-          envkp --repo=${{ inputs.repo }} clean
+          envkp --repo="${GH_REPONAME}" clean
 
 branding:
   icon: 'file'
