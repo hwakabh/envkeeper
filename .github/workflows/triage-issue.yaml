@@ -25,7 +25,7 @@ jobs:
         # https://github.com/technote-space/assign-author
 
       - name: Label Issue
-        uses: github/issue-labeler@v3.4
+        uses: github/issue-labeler@v3.5
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           configuration-path: .github/config/issue-labels.yaml
